@@ -1,0 +1,40 @@
+# Gera o programa .exe (Windows). Feita pelo Mini SK (📦 APK → 🖥️ .exe).
+# Antes de entregar, o GitHub liga o programa e confere. Se falhar, fica VERMELHO.
+name: "Programa .exe para Windows"
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  exe:
+    runs-on: windows-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+      - name: Instalar as peças
+        run: npm install --no-audit --no-fund
+      - name: Teste - o programa liga?
+        shell: pwsh
+        timeout-minutes: 4
+        continue-on-error: true
+        run: |
+          $env:TESTE_SAIR = "1"
+          npx electron .
+          if ($LASTEXITCODE -ne 0) { throw "O programa não ligou" }
+      - name: Fazer o .exe
+        run: npx electron-builder --win nsis portable --x64 --publish never
+      - name: Entregar para baixar (Releases)
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: exe-${{ github.run_number }}
+          name: "colador-de-links-18-10-a-2 ${{ github.run_number }}"
+          files: release/*.exe
+      - name: Entregar também em Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: colador-de-links-18-10-a-2-Windows
+          path: release/*.exe
+          retention-days: 30

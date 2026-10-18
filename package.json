@@ -1,34 +1,50 @@
 {
   "name": "coladordelinks1810a2",
   "version": "1.0.0",
-  "private": true,
   "description": "Colador-de-Links-18-10-a (2)",
-  "author": "Colador-de-Links-18-10-a (2)",
+  "author": "Maikon",
+  "private": true,
   "main": "electron/main.cjs",
-  "scripts": {
-    "desktop": "electron .",
-    "exe": "electron-builder --win portable --publish never"
-  },
+  "portaDoPrograma": 9057,
   "devDependencies": {
-    "electron": "^33.2.0",
-    "electron-builder": "^25.1.8"
+    "electron": "33.2.1",
+    "electron-builder": "25.1.8"
   },
   "build": {
-    "appId": "com.app.coladordelinks1810a2",
-    "productName": "Colador-de-Links-18-10-a (2)",
+    "appId": "com.maikonadvogadomgalt.coladordelinks1810a2.pc.nc2",
+    "productName": "Colador-de-Links-18-10-a (C2)",
+    "executableName": "colador-de-links-18-10-a-2-nc2",
     "directories": {
-      "output": "dist-electron"
+      "output": "release"
     },
+    "asar": false,
     "files": [
       "**/*",
       "!android/**",
       "!.github/**",
-      "!dist-electron/**",
+      "!release/**",
+      "!node_modules/.cache/**",
       "!*.zip",
-      "!.sk/**"
+      "!.sk/**",
+      "!apk.config.json"
     ],
     "win": {
-      "target": "portable"
+      "target": [
+        "nsis",
+        "portable"
+      ],
+      "icon": "icons/icon-512.png"
+    },
+    "nsis": {
+      "oneClick": true,
+      "perMachine": false,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "Colador-de-Links-18-10-a (C2)",
+      "artifactName": "colador-de-links-18-10-a-2-nc2-Instalar.exe"
+    },
+    "portable": {
+      "artifactName": "colador-de-links-18-10-a-2-nc2-sem-instalar.exe"
     }
   }
 }
